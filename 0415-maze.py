@@ -15,16 +15,22 @@ for _ in range(m * 2 + 1):
 
 dx = [-1, 1, 0, 0]
 dy = [0, 0, -1, 1]
+print(n, m)
 count = 0
 def dfs(x, y):
     global count
-    print(x, y)
-    print(n, m)
     if x < 1 or x > 2 * n or y < 1 or y > 2 * m:
+        print('out of range', x, y)     
         return False
     
-    if x == n * 2 - 2 and y == m * 2 - 2:
+    if x == n * 2 - 1 and y == m * 2 - 1:
+        origin_map[x][y] = 'O'
         count += 1
+        print('============== DONE =================')
+        print(x, y)
+        for op in origin_map:
+            print(op)
+        
         return True
     
     if origin_map[x][y] == ' ':
@@ -33,7 +39,9 @@ def dfs(x, y):
             nx = x + dx[i]
             ny = y + dy[i]
             dfs(nx, ny)
+                
         return True
+
     return False
 
 dfs(1, 1)
