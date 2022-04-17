@@ -32,16 +32,14 @@ maze = read_maze(n, m, f)
 dx = [-1, 1, 0, 0]
 dy = [0, 0, -1, 1]
 
-stack = []
-cur_x = 1
-cur_y = 1
-
-while True:
+def dfs(cur_x, cur_y, stack):
     maze[cur_x][cur_y] = 'V';
+
+    # 도착지점 도달
     if cur_x == rows - 2 and cur_y == cols - 2:
         print_maze(maze)
         print('Found the path')
-        break
+        return
 
     forwarded = False
     for i in range(4):
@@ -51,8 +49,7 @@ while True:
         if nx >= 1 and nx < rows and ny >= 1 and ny < cols and maze[nx][ny] == ' ':
             stack.append((cur_x, cur_y))
             print('push', (cur_x, cur_y))
-            cur_x = nx
-            cur_y = ny
+            dfs(nx, ny, stack)
             forwarded = True
             break
     
@@ -60,8 +57,9 @@ while True:
         maze[cur_x][cur_y] = 'B'
         if not stack:
             print('No path exist')
-            break
+            return
         pos = stack.pop()
         print('pop', pos)
-        cur_x = pos[0]
-        cur_y = pos[1]
+        dfs(pos[0], pos[1], stack)
+
+dfs(1, 1, [])
